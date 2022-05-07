@@ -1,6 +1,6 @@
 using Superpower.Display;
 
-namespace CypherExpression.CypherReader;
+namespace CypherExpression.Parser;
 
 public enum CypherToken
 {
@@ -23,5 +23,7 @@ public enum CypherToken
     Dash,
     ArrowRight,
     ArrowLeft,
-    Comma
+    Comma,
+    NamedString,
+    Dot
 }

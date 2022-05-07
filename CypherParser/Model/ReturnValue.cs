@@ -1,28 +1,24 @@
-namespace CypherExpression.CypherWriter;
+namespace CypherExpression.Model;
 
-public struct ReturnValue
+public readonly struct ReturnValue : ICypherQuery
 {
-    private readonly Alias name;
-    private readonly Alias @alias;
-    
-    public ReturnValue(Alias name, Alias alias)
+    public readonly Field Field;
+    public readonly Alias Alias;
+
+    public ReturnValue(Field field, Alias alias)
     {
-        this.name = name;
-        this.alias = alias;
+        this.Field = field;
+        this.Alias = alias;
     }
     
-    public ReturnValue(Alias name)
+    public ReturnValue(Field field)
     {
-        this.name = name;
-        this.alias = Alias.Undefined;
+        this.Field = field;
+        this.Alias = Alias.Undefined;
     }
 
-    public override string ToString()
+    public string Visit(IQueryWriter writer)
     {
-        if (alias.HasValue)
-        {
-            return $"{name.Value} as {alias.Value}";
-        }
-        return name.Value;
+        return writer.Write(this);
     }
 }

@@ -1,4 +1,4 @@
-namespace CypherExpression.CypherReader;
+namespace CypherExpression.Parser;
 
 public class ConsoleSample
 {

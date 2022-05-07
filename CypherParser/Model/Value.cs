@@ -1,4 +1,4 @@
-namespace CypherExpression.CypherWriter;
+namespace CypherExpression.Model;
 
 public class Value
 {

@@ -1,6 +1,6 @@
-namespace CypherExpression.CypherWriter;
+namespace CypherExpression.Model;
 
-public struct Entity
+public struct Entity : IQueryVisitor
 {
     private readonly string[] types;
     private readonly Alias alias;
@@ -29,12 +29,9 @@ public struct Entity
     {
         return $"({(alias.HasValue ? alias.Value : "")}{string.Join(':', this.types)})";
     }
-}
 
-public struct Match
-{
-    public Match()
+    public string Visit(IQueryWriter visitor)
     {
-        
-    }    
+        return visitor.Write(this);
+    }
 }

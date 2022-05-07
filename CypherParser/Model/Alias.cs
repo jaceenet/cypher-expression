@@ -1,20 +1,19 @@
-namespace CypherExpression.CypherWriter;
+namespace CypherExpression.Model;
 
 public struct Alias
 {
-    private readonly string _value;
-
     public Alias(string value)
     {
-        _value = value;
+        this.Value = value;
     }
-    
+
+    public string Value { get; }
+
     public static implicit operator Alias(string s)
     {
         return new Alias(s);
     }
 
-    public static Alias Undefined = new Alias("");
-    public bool HasValue => _value != string.Empty;
-    public string Value => _value;
+    public static Alias Undefined = new (string.Empty);
+    public bool HasValue => !string.IsNullOrEmpty(Value);
 }
