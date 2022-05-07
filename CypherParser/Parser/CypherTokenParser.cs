@@ -24,7 +24,7 @@ static class CypherTokenParser
     internal static TextParser<string> NamedString { get; } =
         //from l in Character.Letter
         from chars in Character
-            .ExceptIn('(', ')', '[', ']', ':', '.')
+            .ExceptIn('(', ')', '[', ']', ':', '.', '\'', ' ', ',')
         //     //.IgnoreThen(Character.EqualTo('\''))
         //     .Named("escaped")
             .Many()

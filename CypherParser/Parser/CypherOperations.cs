@@ -20,11 +20,21 @@ public static class CypherOperations
 
     public static class ReturnKinds
     {
+        static TokenListParser<CypherToken, string> QuotedString { get; } =
+            Token.EqualTo(CypherToken.String)
+                .Apply(CypherTokenParser.String)
+                .Select(s => s);
         
-        internal static TokenListParser<CypherToken, Alias> AsField { get; } =
+        static TokenListParser<CypherToken, string> NamedString { get; } =
+            Token.EqualTo(CypherToken.NamedString)
+                .Apply(CypherTokenParser.NamedString)
+                .Select(s => s);
+
+        internal static TokenListParser<CypherToken, Alias> AsDeclared { get; } =
             from d in Token.EqualTo(CypherToken.As)
-            from a in Token.EqualTo(CypherToken.NamedString)        
-            select new Alias(a.ToStringValue());
+            from a in NamedString
+                .Or(QuotedString)
+            select new Alias(a);
 
         internal static TokenListParser<CypherToken, Field> Field { get; } =
             from a in Token.EqualTo(CypherToken.NamedString)
@@ -39,8 +49,8 @@ public static class CypherOperations
         internal static TokenListParser<CypherToken, ReturnValue> AnyField { get; } =
             from a in Field.Try()
                 .Or(AsValue)
-                from b in AsField.OptionalOrDefault()
+                from b in AsDeclared.Optional()
             
-            select new ReturnValue(a, b.HasValue ? new Alias(b.Value) : Alias.Undefined);
+            select new ReturnValue(a, b.HasValue ? b.Value : Alias.Undefined);
     }
 }

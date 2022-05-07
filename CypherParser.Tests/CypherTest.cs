@@ -1,4 +1,6 @@
+using System.Linq;
 using CypherExpression.Model;
+using CypherExpression.Parser;
 using Superpower.Model;
 using Xunit;
 using Xunit.Abstractions;
@@ -32,5 +34,12 @@ public abstract class CypherTest
         this.helper.WriteLine("Compiled to => ");
         this.helper.WriteLine(writer.Write(res.Value));
         return res.Value;
+    }
+
+    public void TestTokens(string q, params CypherToken[] tokens)
+    {
+        var res = CypherTokenizer.Instance.TryTokenize(q);
+        Assert.True(res.HasValue);
+        Assert.Equal(tokens, res.Value.Select(x => x.Kind).ToArray());
     }
 }

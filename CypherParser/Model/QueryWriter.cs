@@ -32,13 +32,13 @@ public class QueryWriter : IQueryWriter
     {
         if (entity.Alias.HasValue)
         {
-            return $"{Write(entity.Field)} as {entity.Alias.Value}";
+            return $"{Write(entity.Field)} as {(entity.Alias.Quoted ? string.Concat("'" + entity.Alias.Value + "'") : entity.Alias.Value)}";
         }
         
         return Write(entity.Field);
     }
 
-    private string Write(Field entityField)
+    public string Write(Field entityField)
     {
         if (entityField.IsNode)
         {

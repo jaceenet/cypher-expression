@@ -1,5 +1,6 @@
 using System.Linq;
 using CypherExpression.Model;
+using CypherExpression.Parser;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -26,7 +27,23 @@ public class UnitTest1 : CypherTest
     [Fact]
     public void Match_N_Match_B()
     {
-        this.TestQuery("match (n) match (b) return n, b");       
+        var q = "match (n) match (b) return n, b";
+        this.TestTokens(q, 
+            CypherToken.Match, 
+            CypherToken.NodeStart, 
+            CypherToken.NamedString, 
+            CypherToken.NodeEnd,
+            CypherToken.Match, 
+            CypherToken.NodeStart, 
+            CypherToken.NamedString, 
+            CypherToken.NodeEnd,
+            CypherToken.Return,
+            CypherToken.NamedString,
+            CypherToken.Comma,
+            CypherToken.NamedString
+            );
+        
+        this.TestQuery(q);       
     }
     
     [Fact]
