@@ -1,4 +1,4 @@
-namespace CypherParser.CypherWriter;
+namespace CypherExpression.CypherWriter;
 
 public struct Entity
 {
@@ -29,4 +29,12 @@ public struct Entity
     {
         return $"({(alias.HasValue ? alias.Value : "")}{string.Join(':', this.types)})";
     }
+}
+
+public struct Match
+{
+    public Match()
+    {
+        
+    }    
 }

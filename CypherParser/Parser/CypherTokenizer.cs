@@ -2,7 +2,7 @@ using Superpower;
 using Superpower.Parsers;
 using Superpower.Tokenizers;
 
-namespace CypherParser.CypherReader;
+namespace CypherExpression.CypherReader;
 
 public class CypherTokenizer
 {

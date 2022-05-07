@@ -1,4 +1,4 @@
-namespace CypherParser.CypherWriter;
+namespace CypherExpression.CypherWriter;
 
 public struct ReturnValue
 {

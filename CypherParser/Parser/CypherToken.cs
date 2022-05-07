@@ -1,6 +1,6 @@
 using Superpower.Display;
 
-namespace CypherParser.CypherReader;
+namespace CypherExpression.CypherReader;
 
 public enum CypherToken
 {

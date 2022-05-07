@@ -2,7 +2,7 @@ using Superpower;
 using Superpower.Model;
 using Superpower.Parsers;
 
-namespace CypherParser.CypherReader;
+namespace CypherExpression.CypherReader;
 
 static class CypherTokenParser
 {

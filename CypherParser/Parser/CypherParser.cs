@@ -1,43 +1,31 @@
 using System.Diagnostics.CodeAnalysis;
-using CypherParser.CypherWriter;
+using CypherExpression.CypherWriter;
 using Superpower;
 using Superpower.Model;
 using Superpower.Parsers;
 
-namespace CypherParser.CypherReader;
+namespace CypherExpression.CypherReader;
 
-static class CypherParser
+public static class CypherParser
 {
-    public static TokenListParser<CypherToken, object?> CypherQuery { get; } =
-        from begin in Token.EqualTo(CypherToken.Match)
-        from node in Entity
-        select (object) $"match {node}";
-    
-    public static TokenListParser<CypherToken, ReturnValue[]> CypherReturn { get; } =
+    internal static TokenListParser<CypherToken, ReturnValue[]> CypherReturn { get; } =
         from begin in Token.EqualTo(CypherToken.Return)
         from args in ReturnParam
             .ManyDelimitedBy(Token.EqualTo(CypherToken.Comma))
             .AtEnd()
         select args;
 
-    public static TokenListParser<CypherToken, object?> CypherExpression { get; } =
-        from begin in CypherQuery
+    internal static TokenListParser<CypherToken, object?> CypherExpression { get; } =
+        from begin in CypherParserMatches.Match.AtLeastOnce()
         from res in CypherReturn
         select (object)$"Recompiled expression: \r\n {begin} \r\n\treturn {string.Join(',', res)}";
 
-    public static TokenListParser<CypherToken, Entity> Entity { get; } =
-        from start in Token.EqualTo(CypherToken.NodeStart)
-        from sss in Token.EqualTo(CypherToken.String)
-        from ss in Token.EqualTo(CypherToken.NodeEnd)
-        select new Entity(sss.ToStringValue());
-    
-
-    public static TokenListParser<CypherToken, Alias> AsParam { get; } =
+    internal static TokenListParser<CypherToken, Alias> AsParam { get; } =
         from d in Token.EqualTo(CypherToken.As)
         from d2 in Token.EqualTo(CypherToken.String)
         select new Alias(d2.ToStringValue());
 
-    public static TokenListParser<CypherToken, ReturnValue> ReturnParam { get; } =
+    internal static TokenListParser<CypherToken, ReturnValue> ReturnParam { get; } =
         from d in Token.EqualTo(CypherToken.String)
         from d2 in AsParam.Optional()
         select new ReturnValue(d.ToStringValue(), d2.HasValue ? d2.Value : Alias.Undefined);
