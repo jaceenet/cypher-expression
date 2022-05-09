@@ -13,17 +13,17 @@ public class CypherTokenizer
             .Match(CypherTokenParser.Return, CypherToken.Return)
             .Match(Span.EqualToIgnoreCase("as"), CypherToken.As)
 
-            .Match(Character.EqualTo('('), CypherToken.NodeStart)
-            .Match(Character.EqualTo(')'), CypherToken.NodeEnd)
-            .Match(Character.EqualTo('['), CypherToken.RelationStart)
-            .Match(Character.EqualTo(']'), CypherToken.RelationEnd)
+            .Match(Character.EqualTo('('), CypherToken.LParenthesis)
+            .Match(Character.EqualTo(')'), CypherToken.RParenthesis)
+            .Match(Character.EqualTo('['), CypherToken.LSquareBracket)
+            .Match(Character.EqualTo(']'), CypherToken.RSquareBracket)
             .Match(Character.EqualTo(':'), CypherToken.Colon)
             .Match(Character.EqualTo(','), CypherToken.Comma)
             .Match(Character.EqualTo('.'), CypherToken.Dot)
             
             // .Match(Character.EqualTo('>'), CypherToken.ArrowRight)
             // .Match(Character.EqualTo('<'), CypherToken.ArrowLeft)
-            // .Match(Character.EqualTo('-'), CypherToken.Dash)
+            .Match(Character.EqualTo('-'), CypherToken.Dash)
             .Match(CypherTokenParser.String, CypherToken.String)
             .Match(CypherTokenParser.NamedString, CypherToken.NamedString)
             

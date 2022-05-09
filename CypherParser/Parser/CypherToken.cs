@@ -11,11 +11,11 @@ public enum CypherToken
     Return,
     [Token(Category = "operator", Example = "AS")]
     As,
-    NodeStart,
-    NodeEnd,
+    LParenthesis,
+    RParenthesis,
     Quote,
-    RelationStart,
-    RelationEnd,
+    LSquareBracket,
+    RSquareBracket,
     Colon,
     
     String,

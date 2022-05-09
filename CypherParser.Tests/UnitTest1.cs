@@ -12,50 +12,38 @@ public class UnitTest1 : CypherTest
     {
     }
     
-    [Fact]
-    public void Match_N()
+    [Theory]
+    [InlineData("match (n) return n")]
+    [InlineData("match () return n")]
+    [InlineData("match (n)--() return n")]
+    public void MatchEntities(string query)
     {
-        this.TestQuery("match (n) return n");       
+        this.TestQuery(query);       
     }
     
-    [Fact]
-    public void Return_N_DotNamed()
+    [Theory]
+    [InlineData("match (n) return n as this_is_my_node")]
+    [InlineData("match (n) return n")]
+    [InlineData("match (n) return n.id")]
+    [InlineData("match (n) return n as 'the n'")]
+    [InlineData("match (n) return n as 'the n', n, n.id")]
+    [InlineData("match (n) return n as 'the n', count(n), n.id")]
+    [InlineData("match (n) return n as 'the n', count(n) as 'counter', n.id")]
+    public void Returns(string query)
     {
-        this.TestQuery("match (n) return n.id");       
+        this.TestQuery(query);       
     }
-    
-    [Fact]
-    public void Match_N_Match_B()
+
+    [Theory]
+    [InlineData("match (a)-[a]-(b) return a")]
+    [InlineData("match (a)--(b) return a")]
+    [InlineData("match (a)-[a:test]-(b) return a")]
+    [InlineData("match (a)--(b) return a")]
+    [InlineData("match (a)--(b)--(c) return a")]
+    [InlineData("match (a)-[r1]-(b)-[r2]-(c) return a")]
+    public void Match_Relationship(string query)
     {
-        var q = "match (n) match (b) return n, b";
-        this.TestTokens(q, 
-            CypherToken.Match, 
-            CypherToken.NodeStart, 
-            CypherToken.NamedString, 
-            CypherToken.NodeEnd,
-            CypherToken.Match, 
-            CypherToken.NodeStart, 
-            CypherToken.NamedString, 
-            CypherToken.NodeEnd,
-            CypherToken.Return,
-            CypherToken.NamedString,
-            CypherToken.Comma,
-            CypherToken.NamedString
-            );
-        
-        this.TestQuery(q);       
-    }
-    
-    [Fact]
-    public void Return_as()
-    {
-        this.TestQuery("match (n) return n as n");       
-    }
-    
-    [Fact]
-    public void Match_N_on_type()
-    {
-        this.TestQuery("match (this_is_my_node) return n as this_is_my_node");       
+        this.TestQuery(query);       
     }
     
     [Fact]
